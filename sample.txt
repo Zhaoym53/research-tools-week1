@@ -1,0 +1,20 @@
+Data security and privacy protection have become central topics in modern
+computing. Every service that collects user data must balance security
+against usability, and privacy protection is no longer optional.
+
+Encryption protects data in transit and at rest, but encryption alone does
+not guarantee privacy. Access control, auditing, and data minimization are
+equally important for privacy protection. When engineers design a system,
+they should ask what data is truly needed, because collecting less data is
+the simplest form of privacy protection.
+
+Differential privacy adds calibrated noise to statistics so that individual
+records stay private while the aggregate remains useful. Federated learning
+keeps raw data on devices and shares only model updates, which reduces the
+risk of leaking private data. Secure multiparty computation and homomorphic
+encryption allow computation on encrypted data, so privacy is preserved
+even during processing.
+
+In this course we study both the theory of data security and the practice
+of privacy protection, from access control and encryption protocols to
+privacy preserving machine learning.
