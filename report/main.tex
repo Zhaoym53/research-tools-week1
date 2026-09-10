@@ -1,0 +1,356 @@
+%!TeX program = xelatex
+\documentclass{SYSUReport}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usepackage{adjustbox} % 加入调整表格大小的宏包
+\usepackage{booktabs} % 用于创建更漂亮的表格
+\usepackage{multirow} % 用于合并单元格
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{amsmath}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{gray!10},      % 背景色
+    basicstyle=\ttfamily\small,           % 基本字体
+    keywordstyle=\color{blue!70!black},   % 关键字颜色
+    commentstyle=\color{green!40!black},  % 注释颜色
+    stringstyle=\color{purple!60!black},  % 字符串颜色
+    numbers=left,                         % 行号
+    numberstyle=\tiny\color{gray},
+    frame=single,                         % 边框
+    breaklines=true,                      % 自动换行
+    captionpos=b                          % caption 在底部
+}
+
+\lstset{style=mystyle}
+
+% 待办事项提示框（提交前请逐个完成并删除）
+\tcbuselibrary{breakable}
+\newtcolorbox{todobox}[1][待补充]{colback=red!5,colframe=red!60!black,
+  title=#1,breakable}
+
+% 根据个人情况修改
+\headl{学号 姓名}
+\headr{数据安全和隐私保护}
+\lessonTitle{数据安全和隐私保护}
+\reportTitle{数据安全和隐私保护第1次实验}
+\stuname{姓名}
+\stuid{学号}
+\inst{网络空间安全学院}
+\major{网络空间安全}
+% 修改为具体日期
+\date{2026 年 9 月 10 日}
+
+\begin{document}
+
+\cover
+\thispagestyle{empty} % 首页不显示页码
+\clearpage
+
+\tableofcontents
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{实验要求}
+
+本次实验（实验一：基础工具使用）的要求如下：
+
+\begin{enumerate}
+  \item 了解 LaTeX 中图片插入的基本方法，在实验报告中实际插入至少一张实验结果图；
+  尽量使用 PDF、SVG、EPS 等矢量图片，避免低分辨率截图；掌握
+  \texttt{\textbackslash includegraphics} 的基本使用并合理设置图片大小；
+  图片应包含规范的图编号、图标题，并在正文中引用。
+  \item 掌握 Git 和 GitHub 的基本使用方法：安装并配置 Git，在 GitHub 建立个人实验代码仓库，
+  完成仓库的创建、克隆（初始化）、提交、上传和更新；完成两次本地提交，
+  在 GitHub 网页修改 README 后用 \texttt{git pull} 同步，并用 \texttt{git log} 核对。
+  \item 完成 Codex 的安装和基本配置，下载并配置 cc-switch，对供应商进行配置与切换，
+  并使用 Codex 完成至少一次任务（代码阅读、生成或修改）。
+  \item 实验报告需包含必要的操作步骤、关键命令、过程截图、代码修改情况及实验总结，
+  尽量使用 LaTeX 模板编写。
+\end{enumerate}
+
+\section{实验原理}
+
+\subsection{Git 版本控制模型}
+
+Git 是分布式版本控制系统。工作区保存正在编辑的文件；\texttt{git add}
+把修改送入暂存区；\texttt{git commit} 把暂存内容记录为本地仓库中的一个版本；
+\texttt{git push} 把本地提交上传到 GitHub 等远程仓库，\texttt{git pull}
+则把远程更新拉取并合并到本地。提交前用 \texttt{git status} 判断哪些文件发生了变化，
+用 \texttt{git diff} 与 \texttt{git diff -{}-staged} 分别查看未暂存和已暂存的差异，
+用 \texttt{git log} 追溯提交历史。推荐的固定节奏为：
+开始工作先 \texttt{pull}，修改后查看 \texttt{status} 和 \texttt{diff}，
+确认后 \texttt{add}、\texttt{commit}，结束工作再 \texttt{push}。
+
+\subsection{Codex 辅助编程与 cc-switch}
+
+Codex 是命令行 AI 编程助手，能在用户授权范围内读取项目、修改文件并运行本地工具。
+它根据自然语言需求和仓库上下文制定并执行操作，但生成结果可能存在错误或不安
+全修改，因此可靠流程应包含：权限确认、命令审阅、程序运行、测试和 Git 差异检查；
+Codex 负责辅助理解与修改，Git 负责保存可核对的版本。
+
+cc-switch 是第三方开源桌面工具，把不同供应商的端点、模型和认证配置保存为可切换
+条目，通过更新 Codex 的配置文件（\texttt{\textasciitilde/.codex/config.toml}）
+实现切换；切换后需重启 Codex 使配置生效。使用第三方供应商前应了解其计费、
+数据处理和账号规则，且注意不要把 API Key 写入报告、截图或仓库。
+
+\subsection{LaTeX 插图与矢量图}
+
+位图由像素组成，放大后会出现锯齿或模糊；矢量图保存曲线、文字和几何对象，
+缩放时仍能保持清晰，因此折线图、柱状图等科研图表应优先导出为 PDF/SVG 矢量格式。
+LaTeX 通过 \texttt{graphicx} 宏包的 \texttt{\textbackslash includegraphics}
+把图片按版面尺寸排入文档（用 \texttt{width=0.8\textbackslash textwidth}
+控制宽度），\texttt{\textbackslash caption} 生成图编号与图题，
+\texttt{\textbackslash label} 与 \texttt{\textbackslash ref} 建立正文引用。
+
+\section{实验设置}
+
+\begin{table}[htbp]
+  \centering
+  \caption{实验环境与工具版本}
+  \label{tab:env}
+  \begin{tabular}{ll}
+    \toprule
+    项目 & 版本/说明 \\
+    \midrule
+    操作系统 & Windows 11 + WSL2 (Ubuntu 22.04) \\
+    Git & 2.34.1（Ubuntu 软件源预装） \\
+    Python / matplotlib & 3.10.12 / 3.10.9 \\
+    Node.js / Codex CLI & v22.9.0 / codex-cli 0.154.0 \\
+    cc-switch & 3.20.1（Windows GUI 版） \\
+    代码仓库 & \texttt{github.com/Zhaoym53/research-tools-week1} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+实验代码托管于本仓库：词频统计程序 \texttt{code/text\_stats.py}，
+绘图脚本 \texttt{code/plot\_wordfreq.py}，示例文本 \texttt{sample.txt}，
+运行结果（含矢量结果图）位于 \texttt{result/} 目录，LaTeX 报告位于 \texttt{report/} 目录。
+
+\section{实验过程}
+
+\subsection{Git 的安装与配置}
+
+WSL2 Ubuntu 环境已通过软件源预装 Git，执行 \texttt{git -{}-version} 确认版本为
+2.34.1。随后配置提交记录中显示的姓名和邮箱（写入提交历史，不等同于 GitHub 登录密码）：
+
+\begin{lstlisting}[language=bash,caption={Git 安装确认与身份配置}]
+git --version
+git config --global user.name "Zhaoym53"
+git config --global user.email "13361470120@163.com"
+git config --global init.defaultBranch main
+git config --global --list --show-origin
+\end{lstlisting}
+
+本环境已配置 GitHub 的 SSH 密钥（\texttt{\textasciitilde/.ssh/id\_ed25519}），
+用 \texttt{ssh -T git@github.com} 验证通过，后续与远程仓库的收发均走 SSH 认证，
+避免在命令或配置文件中出现密码和令牌。
+
+\subsection{本地初始化与两次提交}
+
+先在本地初始化仓库并按实验要求建立 \texttt{code/}、\texttt{result/}、
+\texttt{report/}、\texttt{figures/} 四类目录，然后编写词频统计程序：
+
+\begin{lstlisting}[language=bash,caption={仓库初始化}]
+git init -b main
+mkdir -p code result report figures
+\end{lstlisting}
+
+第一次提交加入 README 和一个可运行的小程序 \texttt{code/text\_stats.py}
+（统计英文文本词频，支持 \texttt{-n} 指定显示条数、\texttt{-{}-json} 导出完整结果）。
+提交前先用 \texttt{status} 和 \texttt{diff} 核对变化，再明确列出要暂存的文件：
+
+\begin{lstlisting}[language=bash,caption={第一次提交：程序与说明}]
+git status
+git diff
+git add README.md .gitignore code/text_stats.py sample.txt
+git commit -m "add README and word frequency counter program"
+\end{lstlisting}
+
+运行程序验证输出正确后，把运行结果（\texttt{result/sample\_stats.txt} 与
+\texttt{result/sample\_stats.json}）、绘图脚本及其生成的矢量图作为第二次提交。
+两次提交各自只完成一个清晰目标，提交说明使用动词描述本次变化：
+
+\begin{lstlisting}[language=bash,caption={运行程序与第二次提交}]
+python3 code/text_stats.py sample.txt -n 15 --json result/sample_stats.json
+python3 code/plot_wordfreq.py
+git add code/plot_wordfreq.py result/
+git commit -m "add run results and vector word frequency chart"
+\end{lstlisting}
+
+程序输出如下（共 165 词，其中 data 出现 10 次、privacy 出现 9 次）：
+
+\begin{lstlisting}[caption={text\_stats.py 运行输出（节选）}]
+文件: sample.txt
+总词数: 165，不同单词数: 111，前 5 名:
+排名    单词            次数    占比
+1      data           10     6.1%
+2      privacy        9      5.5%
+3      and            8      4.8%
+4      protection     5      3.0%
+5      the            5      3.0%
+\end{lstlisting}
+
+用简洁历史核对两次本地提交：
+
+\begin{lstlisting}[caption={git log 核对提交历史}]
+$ git log --oneline --graph --decorate -n 10
+* c079d2b (HEAD -> main) add run results and vector word frequency chart
+* 541e152 add README and word frequency counter program
+\end{lstlisting}
+
+\begin{todobox}[待补充截图 1]
+在终端运行 \texttt{git log -{}-oneline -{}-graph -{}-decorate -n 10}，
+截图本节输出与上方核对一致（注意不要截到无关信息），替换本框。
+\end{todobox}
+
+\subsection{创建 GitHub 仓库并上传}
+
+在 GitHub 网页新建仓库 \texttt{research-tools-week1} 后，把本地 main 分支
+与其建立关联并首次上传（\texttt{-u} 建立上游关系，以后直接 \texttt{git push}）：
+
+\begin{lstlisting}[language=bash,caption={关联远程仓库并首次上传}]
+git remote add origin git@github.com:Zhaoym53/research-tools-week1.git
+git push -u origin main
+\end{lstlisting}
+
+\begin{todobox}[待完成并补充截图 2]
+在 github.com 上以账号 Zhaoym53 创建空仓库 \texttt{research-tools-week1}
+（不要勾选初始化 README，避免与本地历史冲突），执行上述两条命令完成上传，
+并截图 GitHub 仓库首页（应能看到 README、code、result、report 目录与两次提交）。
+\end{todobox}
+
+\subsection{远程更新与 git pull 同步}
+
+在 GitHub 网页上直接修改 README 的一行文字并提交后，本地先确认工作区干净，
+再执行 \texttt{git pull} 取得远程提交并合并，最后用 \texttt{git log}
+核对"两次本地提交 + 一次远程更新"共三条历史：
+
+\begin{lstlisting}[language=bash,caption={拉取远程更新并核对}]
+git status
+git pull
+git log --oneline --graph --decorate -n 10
+\end{lstlisting}
+
+\begin{todobox}[待完成并补充截图 3]
+在 GitHub 网页修改 README 一行文字（如勾选任务清单中的第一项）并提交，
+然后在本地执行上述命令，截图 \texttt{git log} 显示三条提交的结果。
+\end{todobox}
+
+\subsection{Codex 的安装、配置与辅助编程}
+
+\subsubsection{安装 Codex CLI}
+
+本环境 chatgpt.com 的官方安装脚本不可直接访问，改用 npm 镜像源安装：
+先在用户目录安装 Node.js v22.9.0（无需管理员权限），再全局安装 Codex CLI，
+安装后确认版本：
+
+\begin{lstlisting}[language=bash,caption={npm 安装 Codex CLI}]
+npm install -g @openai/codex --registry=https://registry.npmmirror.com
+codex --version   # 输出: codex-cli 0.154.0
+\end{lstlisting}
+
+\subsubsection{登录与 cc-switch 供应商切换}
+
+Codex 支持用 ChatGPT 账号登录，也可通过 API Key 登录；API Key 应放入环境变量，
+不要写进报告、截图、Git 仓库或 \texttt{config.toml}。随后安装 cc-switch
+（Windows GUI 版，从项目 Releases 页面下载 v3.20.1 安装包），
+在 Codex 页面添加供应商（填写名称、API Key、以 \texttt{/v1} 结尾的 Endpoint
+和模型），保存并启用后重启 Codex 使配置生效：
+
+\begin{lstlisting}[language=bash,caption={登录与状态检查}]
+codex login          # 选择登录方式
+codex login status   # 查看登录状态
+codex                # 在仓库目录中新建会话
+\end{lstlisting}
+
+\begin{todobox}[待完成并补充截图 4（注意遮挡 API Key）]
+完成 codex 登录；安装 cc-switch 并添加/切换供应商；重启终端后用
+\texttt{/status} 验证当前供应商与模型已切换。截图 cc-switch 的供应商卡片界面
+和 Codex 的 /status 输出（务必遮挡 API Key）。
+\end{todobox}
+
+\subsubsection{使用 Codex 完成一次辅助编程任务}
+
+进入仓库目录运行 \texttt{codex}，先让它只阅读项目、说明目录结构、程序入口和
+运行方法而不修改文件；再要求它完成一个小而明确的修改任务（为词频统计程序增加
+忽略停用词的功能并给出测试方法）。阅读它准备执行的命令和文件修改，运行程序确认
+输出符合要求后，退出 Codex 并用 Git 独立检查修改，确认无误再提交：
+
+\begin{lstlisting}[language=bash,caption={Codex 任务流程与独立检查}]
+codex "请先阅读项目，说明目录结构、程序入口和运行方法，不要修改文件。"
+codex "请给 code/text_stats.py 增加可选的英文停用词过滤功能，
+      并说明如何测试。"
+python3 code/text_stats.py sample.txt -n 5
+git status
+git diff
+git add code/text_stats.py && git commit -m "filter stopwords in text_stats"
+git push
+\end{lstlisting}
+
+\begin{todobox}[待完成并补充截图 5]
+实际运行上述两次 Codex 会话，截图：(1) Codex 阅读项目后的回答；
+(2) 它给出的文件修改 diff 与你运行 \texttt{git diff} 的独立检查结果；
+(3) 修改后程序的运行输出。若修改无误，提交并 push。
+\end{todobox}
+
+\subsection{矢量结果图的生成与 LaTeX 排版}
+
+词频统计的 JSON 结果由 \texttt{code/plot\_wordfreq.py} 读入，
+用 matplotlib 绘制水平柱状图并直接导出为 PDF 矢量图
+（\texttt{fig.savefig("result/wordfreq.pdf")}）。矢量图放大不失真，
+避免了截图反复采样造成的清晰度损失。图片统一放入 \texttt{figures} 目录，
+文件名使用简短英文；插入时用 \texttt{graphicx} 宏包并合理设置宽度，
+通过 \texttt{caption} 生成图题、\texttt{label} 与正文 \texttt{ref} 建立引用。
+本报告的实验结果图如图~\ref{fig:wordfreq}~所示，
+正文中的"图~\ref{fig:wordfreq}"即为编译后自动生成的编号引用。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.80\textwidth]{wordfreq.pdf}
+  \caption{sample.txt 词频统计结果（出现频次前 10 的单词）}
+  \label{fig:wordfreq}
+\end{figure}
+
+从图~\ref{fig:wordfreq}~可以看出，语料中 data（10 次）、privacy（9 次）、
+encryption（4 次）等主题词频率最高，与文本"数据安全与隐私保护"的主题一致；
+and、the 等虚词虽然也高频出现，但不携带主题信息，这也是后续实验中考虑
+停用词过滤的原因。将图片放大观察，文字与坐标轴均保持清晰，验证了矢量图的优点。
+
+\section{实验总结}
+
+通过本次实验，我搭建了一条"本地开发—版本管理—远程备份—AI 辅助—报告撰写"
+的完整科研工具链，主要收获如下：
+
+\begin{enumerate}
+  \item \textbf{Git 方面}：理解了工作区、暂存区、本地仓库、远程仓库的四层模型，
+  养成了"先 pull、改后 status/diff、确认后 add/commit、结束 push"的固定节奏。
+  明确列出暂存文件、一次提交只做一个目标、提交说明用动词，这些规范让
+  \texttt{git log} 中的每条历史都有清晰的含义。
+  \item \textbf{AI 辅助编程方面}：Codex 能快速读懂项目结构并给出可用的修改，
+  但它的产出必须经过人工审查——先阅读它准备执行的命令，再运行测试验证，
+  最后用 \texttt{git diff} 独立检查每一处改动后才提交。AI 负责效率，
+  Git 负责可核对的版本，二者缺一不可。
+  \item \textbf{LaTeX 与矢量图方面}：体会到矢量图（PDF）相对截图的优势——
+  缩放不失真、可重复生成；掌握了 \texttt{\textbackslash includegraphics}、
+  \texttt{\textbackslash caption}、\texttt{\textbackslash label/\textbackslash ref}
+  的规范用法，为后续实验报告的撰写打下了基础。
+  \item \textbf{安全意识方面}：整个过程中 API Key 只存在于环境变量和 cc-switch
+  的本地配置中，未出现在任何命令输出、截图或仓库文件里；SSH 密钥认证也避免了
+  在命令行中暴露凭据。
+\end{enumerate}
+
+后续可以改进的方向：使用分支开展实验性修改，熟练处理合并冲突；
+给 \texttt{text\_stats.py} 补充单元测试；把报告编译集成到仓库的持续集成中。
+
+% 如需参考文献可以取消以下两行代码注释并在reference.bib中添加bib引用，然后在正文中用\ref引用
+% \bibliographystyle{ieeetr}   % 或 plain / unsrt / IEEEtran 等
+% \bibliography{reference}
+
+\end{document}
