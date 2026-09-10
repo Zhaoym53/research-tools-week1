@@ -28,18 +28,13 @@
 
 \lstset{style=mystyle}
 
-% 待办事项提示框（提交前请逐个完成并删除）
-\tcbuselibrary{breakable}
-\newtcolorbox{todobox}[1][待补充]{colback=red!5,colframe=red!60!black,
-  title=#1,breakable}
-
 % 根据个人情况修改
-\headl{学号 姓名}
+\headl{23352078 赵一鸣}
 \headr{数据安全和隐私保护}
 \lessonTitle{数据安全和隐私保护}
 \reportTitle{数据安全和隐私保护第1次实验}
-\stuname{姓名}
-\stuid{学号}
+\stuname{赵一鸣}
+\stuid{23352078}
 \inst{网络空间安全学院}
 \major{网络空间安全}
 % 修改为具体日期
@@ -124,6 +119,7 @@ LaTeX 通过 \texttt{graphicx} 宏包的 \texttt{\textbackslash includegraphics}
     Python / matplotlib & 3.10.12 / 3.10.9 \\
     Node.js / Codex CLI & v22.9.0 / codex-cli 0.154.0 \\
     cc-switch & 3.20.1（Windows GUI 版） \\
+    供应商 / 模型 & 智谱 Zhipu GLM（open.bigmodel.cn）/ glm-5.3 \\
     代码仓库 & \texttt{github.com/Zhaoym53/research-tools-week1} \\
     \bottomrule
   \end{tabular}
@@ -205,14 +201,12 @@ $ git log --oneline --graph --decorate -n 10
 * 541e152 add README and word frequency counter program
 \end{lstlisting}
 
-\begin{todobox}[待补充截图 1]
-在终端运行 \texttt{git log -{}-oneline -{}-graph -{}-decorate -n 10}，
-截图本节输出与上方核对一致（注意不要截到无关信息），替换本框。
-\end{todobox}
+此时本地历史共两次提交；后续上传远程、网页修改与再同步后的完整历史
+如图~\ref{fig:gitlog}~所示。
 
 \subsection{创建 GitHub 仓库并上传}
 
-在 GitHub 网页新建仓库 \texttt{research-tools-week1} 后，把本地 main 分支
+在 GitHub 网页新建空仓库 \texttt{research-tools-week1} 后，把本地 main 分支
 与其建立关联并首次上传（\texttt{-u} 建立上游关系，以后直接 \texttt{git push}）：
 
 \begin{lstlisting}[language=bash,caption={关联远程仓库并首次上传}]
@@ -220,28 +214,42 @@ git remote add origin git@github.com:Zhaoym53/research-tools-week1.git
 git push -u origin main
 \end{lstlisting}
 
-\begin{todobox}[待完成并补充截图 2]
-在 github.com 上以账号 Zhaoym53 创建空仓库 \texttt{research-tools-week1}
-（不要勾选初始化 README，避免与本地历史冲突），执行上述两条命令完成上传，
-并截图 GitHub 仓库首页（应能看到 README、code、result、report 目录与两次提交）。
-\end{todobox}
+上传成功后，GitHub 仓库首页已能看到 README、code、report、result 等目录
+与提交记录，如图~\ref{fig:githubrepo}~所示。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{github_repo.png}
+  \caption{GitHub 仓库首页：目录与提交记录均已上传}
+  \label{fig:githubrepo}
+\end{figure}
 
 \subsection{远程更新与 git pull 同步}
 
-在 GitHub 网页上直接修改 README 的一行文字并提交后，本地先确认工作区干净，
-再执行 \texttt{git pull} 取得远程提交并合并，最后用 \texttt{git log}
-核对"两次本地提交 + 一次远程更新"共三条历史：
+在 GitHub 网页上直接修改 README 的一行文字（把任务清单第一项打勾，
+提交说明为 "Mark tasks as completed in README"）后，本地先确认工作区干净，
+再执行 \texttt{git pull} 取得远程提交并以 Fast-forward 方式合并；
+最后用 \texttt{git log} 核对"多次本地提交 + 一次远程更新"的历史，
+如图~\ref{fig:gitlog}~所示：
 
 \begin{lstlisting}[language=bash,caption={拉取远程更新并核对}]
-git status
-git pull
+git status        # nothing to commit, working tree clean
+git pull          # Fast-forward, README.md | 6 +++---
 git log --oneline --graph --decorate -n 10
 \end{lstlisting}
 
-\begin{todobox}[待完成并补充截图 3]
-在 GitHub 网页修改 README 一行文字（如勾选任务清单中的第一项）并提交，
-然后在本地执行上述命令，截图 \texttt{git log} 显示三条提交的结果。
-\end{todobox}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{git_log.png}
+  \caption{首次 push、网页修改 README 后 git pull 同步并用 git log 核对历史}
+  \label{fig:gitlog}
+\end{figure}
+
+从图~\ref{fig:gitlog}~可以看到完整的历史链：
+三次本地提交（\texttt{541e152} $\rightarrow$ \texttt{c079d2b} $\rightarrow$
+\texttt{f7522d8}）与一次网页端远程更新（\texttt{180ed92}），
+\texttt{git pull} 以 Fast-forward 合并、无冲突，\texttt{git status}
+在拉取前后均保持 working tree clean，操作顺序规范。
 
 \subsection{Codex 的安装、配置与辅助编程}
 
@@ -256,49 +264,112 @@ npm install -g @openai/codex --registry=https://registry.npmmirror.com
 codex --version   # 输出: codex-cli 0.154.0
 \end{lstlisting}
 
-\subsubsection{登录与 cc-switch 供应商切换}
+\subsubsection{cc-switch 配置供应商并验证切换}
 
-Codex 支持用 ChatGPT 账号登录，也可通过 API Key 登录；API Key 应放入环境变量，
-不要写进报告、截图、Git 仓库或 \texttt{config.toml}。随后安装 cc-switch
-（Windows GUI 版，从项目 Releases 页面下载 v3.20.1 安装包），
-在 Codex 页面添加供应商（填写名称、API Key、以 \texttt{/v1} 结尾的 Endpoint
-和模型），保存并启用后重启 Codex 使配置生效：
+本机网络环境无法直连 ChatGPT 登录，因此采用 cc-switch 配置第三方供应商的方案。
+在 Windows 上安装 cc-switch v3.20.1，在 Codex 页面添加智谱 Zhipu GLM 供应商
+（Endpoint 为 \texttt{open.bigmodel.cn}，模型 \texttt{glm-5.3}，API Key 填入
+供应商配置中），保存并点击卡片上的"启用"，如图~\ref{fig:ccswitch}~所示。
 
-\begin{lstlisting}[language=bash,caption={登录与状态检查}]
-codex login          # 选择登录方式
-codex login status   # 查看登录状态
-codex                # 在仓库目录中新建会话
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{ccswitch.png}
+  \caption{cc-switch 供应商管理界面：Zhipu GLM 已启用（API Key 未显示）}
+  \label{fig:ccswitch}
+\end{figure}
+
+由于本实验的 Codex CLI 安装在 WSL 内，而 cc-switch 改写的是 Windows 侧用户目录
+下的 \texttt{\textasciitilde/.codex/} 配置，因此每次切换供应商后需把配置文件
+同步到 WSL 侧并重开终端生效。这里踩过一个坑：第一次只同步了
+\texttt{config.toml} 而漏掉 \texttt{cc-switch-model-catalog.json}，
+Codex 启动即报 \texttt{Error loading configuration: No such file or directory}；
+把配置涉及的文件完整同步后恢复正常。为方便起见在 \texttt{\textasciitilde/.bashrc}
+中定义了同步别名：
+
+\begin{lstlisting}[language=bash,caption={把 cc-switch 生成的配置同步到 WSL 侧}]
+alias synccodex='cp /mnt/c/Users/<Windows用户名>/.codex/config.toml \
+  /mnt/c/Users/<Windows用户名>/.codex/cc-switch-model-catalog.json ~/.codex/'
+synccodex && exec bash
 \end{lstlisting}
 
-\begin{todobox}[待完成并补充截图 4（注意遮挡 API Key）]
-完成 codex 登录；安装 cc-switch 并添加/切换供应商；重启终端后用
-\texttt{/status} 验证当前供应商与模型已切换。截图 cc-switch 的供应商卡片界面
-和 Codex 的 /status 输出（务必遮挡 API Key）。
-\end{todobox}
+重开终端进入仓库运行 \texttt{codex}，用 \texttt{/status} 验证：
+当前模型为 \texttt{glm-5.3}（reasoning high）、供应商为 \texttt{custom}、
+权限为工作区写入 + 命令审批（Workspace, Ask for approval），
+说明供应商切换已生效，如图~\ref{fig:codexstatus}~所示。
+API Key 只保存在本地配置文件中，本报告所有截图均已遮挡密钥信息。
 
-\subsubsection{使用 Codex 完成一次辅助编程任务}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{codex_status.png}
+  \caption{/status 验证：模型已切换为 glm-5.3，供应商为 custom}
+  \label{fig:codexstatus}
+\end{figure}
 
-进入仓库目录运行 \texttt{codex}，先让它只阅读项目、说明目录结构、程序入口和
-运行方法而不修改文件；再要求它完成一个小而明确的修改任务（为词频统计程序增加
-忽略停用词的功能并给出测试方法）。阅读它准备执行的命令和文件修改，运行程序确认
-输出符合要求后，退出 Codex 并用 Git 独立检查修改，确认无误再提交：
+\subsubsection{使用 Codex 完成辅助编程任务}
 
-\begin{lstlisting}[language=bash,caption={Codex 任务流程与独立检查}]
+\textbf{任务一（代码阅读）}：进入仓库目录运行 \texttt{codex}，要求它只阅读项目、
+说明目录结构、程序入口和运行方法而不修改文件：
+
+\begin{lstlisting}[language=bash,caption={任务一：只读阅读项目}]
 codex "请先阅读项目，说明目录结构、程序入口和运行方法，不要修改文件。"
+\end{lstlisting}
+
+Codex 依次执行 \texttt{pwd}、\texttt{ls}、\texttt{find} 等只读命令浏览目录，
+阅读 README.md、\texttt{text\_stats.py}、\texttt{plot\_wordfreq.py} 与
+\texttt{main.tex}，随后正确总结出目录结构、程序入口（两个脚本的
+\texttt{main()} 与命令行参数）和运行方法，全程未修改任何文件，
+如图~\ref{fig:codexread}~所示。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{codex_read.png}
+  \caption{任务一：Codex 只读浏览项目并总结结构与运行方法}
+  \label{fig:codexread}
+\end{figure}
+
+\textbf{任务二（代码修改）}：要求 Codex 给词频统计程序增加可选的英文停用词
+过滤功能，并说明测试方法：
+
+\begin{lstlisting}[language=bash,caption={任务二：修改程序并说明测试方法}]
 codex "请给 code/text_stats.py 增加可选的英文停用词过滤功能，
       并说明如何测试。"
-python3 code/text_stats.py sample.txt -n 5
-git status
-git diff
-git add code/text_stats.py && git commit -m "filter stopwords in text_stats"
-git push
 \end{lstlisting}
 
-\begin{todobox}[待完成并补充截图 5]
-实际运行上述两次 Codex 会话，截图：(1) Codex 阅读项目后的回答；
-(2) 它给出的文件修改 diff 与你运行 \texttt{git diff} 的独立检查结果；
-(3) 修改后程序的运行输出。若修改无误，提交并 push。
-\end{todobox}
+Codex 给出修改方案：新增内置停用词集合 \texttt{ENGLISH\_STOPWORDS} 与
+\texttt{-{}-stopwords} 命令行开关，默认不启用、保持原行为不变，并附上测试命令
+与预期输出，如图~\ref{fig:codexdiff}~所示。审阅其方案与命令后批准执行，
+退出 Codex 后用 Git 独立检查修改：
+
+\begin{lstlisting}[language=bash,caption={退出 Codex 后独立检查差异并运行验证}]
+git status        # 仅 M code/text_stats.py，无其他改动
+git diff          # 逐行审查：新增停用词集合、--stopwords 开关、计数逻辑
+python3 code/text_stats.py sample.txt -n 5
+python3 code/text_stats.py sample.txt -n 5 --stopwords
+\end{lstlisting}
+
+独立运行的输出与 Codex 给出的测试预期完全一致：
+默认行为不变（165 词，data/privacy/and 居前）；开启 \texttt{-{}-stopwords}
+后总词数降为 113、不同单词数 82，and/the/of 等虚词被过滤，
+前 5 名全部为主题词：
+
+\begin{lstlisting}[caption={修改后程序独立验证输出（--stopwords 开启）}]
+文件: sample.txt
+总词数: 113，不同单词数: 82，前 5 名，已过滤内置英文停用词:
+排名    单词            次数    占比
+1      data           10     8.8%
+2      privacy        9      8.0%
+3      protection     5      4.4%
+4      encryption     4      3.5%
+5      security       3      2.7%
+\end{lstlisting}
+
+确认无误后提交并推送到 GitHub：
+
+\begin{lstlisting}[language=bash,caption={提交 Codex 的修改}]
+git add code/text_stats.py
+git commit -m "add optional stopword filtering to text_stats"
+git push
+\end{lstlisting}
 
 \subsection{矢量结果图的生成与 LaTeX 排版}
 
@@ -307,7 +378,8 @@ git push
 （\texttt{fig.savefig("result/wordfreq.pdf")}）。矢量图放大不失真，
 避免了截图反复采样造成的清晰度损失。图片统一放入 \texttt{figures} 目录，
 文件名使用简短英文；插入时用 \texttt{graphicx} 宏包并合理设置宽度，
-通过 \texttt{caption} 生成图题、\texttt{label} 与正文 \texttt{ref} 建立引用。
+通过 \texttt{\textbackslash caption} 生成图题、\texttt{\textbackslash label}
+与正文 \texttt{\textbackslash ref} 建立引用。
 本报告的实验结果图如图~\ref{fig:wordfreq}~所示，
 正文中的"图~\ref{fig:wordfreq}"即为编译后自动生成的编号引用。
 
@@ -320,8 +392,10 @@ git push
 
 从图~\ref{fig:wordfreq}~可以看出，语料中 data（10 次）、privacy（9 次）、
 encryption（4 次）等主题词频率最高，与文本"数据安全与隐私保护"的主题一致；
-and、the 等虚词虽然也高频出现，但不携带主题信息，这也是后续实验中考虑
-停用词过滤的原因。将图片放大观察，文字与坐标轴均保持清晰，验证了矢量图的优点。
+and、the 等虚词虽然也高频出现，但不携带主题信息。对比 4.5 节开启
+\texttt{-{}-stopwords} 后的输出，data 的占比从 6.1\% 升至 8.8\%，
+主题词更加突出，这也说明了停用词过滤在文本统计中的必要性。
+将结果图放大观察，文字与坐标轴均保持清晰，验证了矢量图相对截图的优势。
 
 \section{实验总结}
 
@@ -332,18 +406,21 @@ and、the 等虚词虽然也高频出现，但不携带主题信息，这也是�
   \item \textbf{Git 方面}：理解了工作区、暂存区、本地仓库、远程仓库的四层模型，
   养成了"先 pull、改后 status/diff、确认后 add/commit、结束 push"的固定节奏。
   明确列出暂存文件、一次提交只做一个目标、提交说明用动词，这些规范让
-  \texttt{git log} 中的每条历史都有清晰的含义。
-  \item \textbf{AI 辅助编程方面}：Codex 能快速读懂项目结构并给出可用的修改，
-  但它的产出必须经过人工审查——先阅读它准备执行的命令，再运行测试验证，
-  最后用 \texttt{git diff} 独立检查每一处改动后才提交。AI 负责效率，
-  Git 负责可核对的版本，二者缺一不可。
+  \texttt{git log} 中的每条历史都有清晰的含义；网页修改与本地 \texttt{pull}
+  的 Fast-forward 合并也让我直观理解了"远程更新"的同步过程。
+  \item \textbf{AI 辅助编程方面}：Codex 能快速读懂项目结构并给出可用的修改
+  （停用词过滤功能的测试预期与我的独立运行结果完全一致），但它的产出必须经过
+  人工审查——先阅读它准备执行的命令，再运行测试验证，最后用 \texttt{git diff}
+  独立检查每一处改动后才提交。AI 负责效率，Git 负责可核对的版本，二者缺一不可。
   \item \textbf{LaTeX 与矢量图方面}：体会到矢量图（PDF）相对截图的优势——
   缩放不失真、可重复生成；掌握了 \texttt{\textbackslash includegraphics}、
   \texttt{\textbackslash caption}、\texttt{\textbackslash label/\textbackslash ref}
   的规范用法，为后续实验报告的撰写打下了基础。
-  \item \textbf{安全意识方面}：整个过程中 API Key 只存在于环境变量和 cc-switch
-  的本地配置中，未出现在任何命令输出、截图或仓库文件里；SSH 密钥认证也避免了
-  在命令行中暴露凭据。
+  \item \textbf{排错与安全意识方面}：cc-switch 在 Windows 侧改写配置，而 WSL 内的
+  Codex 读取的是 Linux 侧文件，只同步一半配置文件就会导致启动失败——
+  跨子系统搭建工具链时必须清楚"每一份配置到底存在哪里"。整个过程中 API Key
+  只存在于 cc-switch 的本地配置中，未出现在任何命令输出、截图或仓库文件里；
+  SSH 密钥认证也避免了在命令行中暴露凭据。
 \end{enumerate}
 
 后续可以改进的方向：使用分支开展实验性修改，熟练处理合并冲突；

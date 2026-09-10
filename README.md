@@ -28,9 +28,9 @@ python3 code/plot_wordfreq.py
 
 ## 实验一任务清单
 
-- [√ ] 安装并配置 Git，完成本地提交
-- [√ ] 在 GitHub 建立仓库并 push 本地代码
-- [√ ] 在 GitHub 网页修改 README 后用 git pull 同步
-- [ ] 安装配置 Codex，并完成一次辅助编程任务
-- [ ] 安装配置 cc-switch，完成供应商切换
-- [ ] 使用 LaTeX 模板撰写实验报告（含矢量结果图）
+- [x] 安装并配置 Git，完成本地提交
+- [x] 在 GitHub 建立仓库并 push 本地代码
+- [x] 在 GitHub 网页修改 README 后用 git pull 同步
+- [x] 安装配置 Codex，并完成一次辅助编程任务
+- [x] 安装配置 cc-switch，完成供应商切换
+- [x] 使用 LaTeX 模板撰写实验报告（含矢量结果图）
