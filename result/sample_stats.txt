@@ -1,0 +1,20 @@
+文件: sample.txt
+总词数: 165，不同单词数: 111，前 15 名:
+排名    单词              次数      占比
+1     data            10      6.1%
+2     privacy         9       5.5%
+3     and             8       4.8%
+4     protection      5       3.0%
+5     the             5       3.0%
+6     is              4       2.4%
+7     encryption      4       2.4%
+8     of              4       2.4%
+9     security        3       1.8%
+10    in              3       1.8%
+11    that            2       1.2%
+12    access          2       1.2%
+13    control         2       1.2%
+14    to              2       1.2%
+15    so              2       1.2%
+
+完整词频已写入: result/sample_stats.json
