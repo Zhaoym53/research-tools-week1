@@ -337,7 +337,16 @@ codex "请给 code/text_stats.py 增加可选的英文停用词过滤功能，
 
 Codex 给出修改方案：新增内置停用词集合 \texttt{ENGLISH\_STOPWORDS} 与
 \texttt{-{}-stopwords} 命令行开关，默认不启用、保持原行为不变，并附上测试命令
-与预期输出，如图~\ref{fig:codexdiff}~所示。审阅其方案与命令后批准执行，
+与预期输出，如图~\ref{fig:codexdiff}~所示。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{codex_diff.png}
+  \caption{任务二：Codex 给出的修改说明与测试方法（含 JSON 输出预期）}
+  \label{fig:codexdiff}
+\end{figure}
+
+审阅其方案与命令后批准执行，
 退出 Codex 后用 Git 独立检查修改：
 
 \begin{lstlisting}[language=bash,caption={退出 Codex 后独立检查差异并运行验证}]
